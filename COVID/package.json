@@ -1,0 +1,35 @@
+{
+  "name": "covid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csv-parse": "^4.8.8",
+    "csv-parser": "^2.3.2",
+    "curlrequest": "^1.0.1",
+    "d3": "^5.15.1",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.0",
+    "follow-redirects": "^1.11.0",
+    "fs": "0.0.1-security",
+    "get-json": "^1.0.1",
+    "github-content": "^1.0.1",
+    "http": "0.0.1-security",
+    "install": "^0.13.0",
+    "lodash": "^4.17.15",
+    "npm": "^6.14.4",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
