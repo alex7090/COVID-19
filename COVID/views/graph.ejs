@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graphs</title>
+</head>
+
+<style>
+
+</style>
+
+
+
+<body>
+  <div>
+    <canvas id="line-chart" width="800" height="450"></canvas>
+    <canvas id="bar-chart" width="800" height="450"></canvas>
+  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+      new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: ["Janvier", "Fevrier", "Mars", "Avril"],
+        datasets: [{ 
+            data: [86,114,106,106,107,111,133,221,783,2478],
+            label: "France",
+            borderColor: "#3e95cd",
+            fill: false
+          }, { 
+            data: [282,350,411,502,635,809,947,1402,3700,5267],
+            label: "Etat-Unis",
+            borderColor: "#8e5ea2",
+            fill: false
+          }, { 
+            data: [168,170,178,190,203,276,408,547,675,734],
+            label: "Espagne",
+            borderColor: "#3cba9f",
+            fill: false
+          }, { 
+            data: [40,20,10,16,24,38,74,167,508,784],
+            label: "Italie",
+            borderColor: "#e8c3b9",
+            fill: false
+          }, { 
+            data: [6,3,2,2,7,26,82,172,312,433],
+            label: "Chine",
+            borderColor: "#c45850",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Nombre de mort dans le monde'
+        }
+      }
+    });
+
+    new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["0-17", "17-18", "18-50", "50-60", "60-100"],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Nombre de mort par tranche d\'âge'
+      }
+    }
+});
+    </script>
+</body>
+<html>
