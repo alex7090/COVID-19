@@ -93,7 +93,7 @@ router.get('/clement', function (req, res) {
         }
         console.log(result.reports[0].cases)
         
-        res.render('main_page', {
+        res.render('graph', {
             confirmed: result.reports[0].cases,
             deaths: result.reports[0].deaths,
             recovered: result.reports[0].recovered,
