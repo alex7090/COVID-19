@@ -1,11 +1,14 @@
 <head>
-    <title>Area</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/css/mdb.min.css" rel="stylesheet">
+    <title>COVID</title>
 </head>
 <style>
+    #info {
+        display: none;
+        top: 100px;
+        left: 50%;
+        position: absolute;
+    }
+
     #mydiv {
         top: 200px;
         left: 100px;
@@ -80,24 +83,14 @@
 </style>
 
 <body>
+    <p id='demo'></p>
 
-    <!-- Navbar -->
+    <div id="info"></div>
 
-    <!-- <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Area</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav> -->
-
-    <!-- Navbar -->
-
-    <!-- Content -->
     <div class="row">
         <div id="mydiv">
             <div id="mydivheader">CONFIRMED CASES</div>
-            <p><%- confirmed %></p>
+            <p id="conf"><%- confirmed %></p>
         </div>
 
         <div id="mydiv2">
@@ -116,6 +109,23 @@
         </div>
     </div>
     <script>
+        var tmp = "";
+        var test = "";
+        parse();
+        function parse() {
+            tmp = '<%- JSON.stringify(data) %>';
+            test = JSON.parse(tmp);
+            console.log(test[0][0].Country);
+            var txt = "";
+            txt += "<table border='1'>";
+            txt += "<tr><td>DEV-ID</td><td>Country</td><td>Death</td><td>Cases</td><td>Recovered</td><td>Active</td></tr>";
+            for (x in test[0]) {
+                txt += "<tr id='" + x + "' onclick='getInfo(this.id)'><td>" + x + "</td><td>" + test[0][x].Country + "</td><td>" + test[0][x].TotalDeaths + "</td><td>" + test[0][x].TotalCases + "</td><td>" + test[0][x].TotalRecovered + "</td><td>" + test[0][x].ActiveCases + "</td></tr>";
+            }
+            txt += "</table>"
+            document.getElementById("demo").innerHTML = txt;
+        }
+
         //Make the DIV element draggagle:
         dragElement(document.getElementById("mydiv"));
         dragElement(document.getElementById("mydiv2"));
@@ -125,44 +135,50 @@
         function dragElement(elmnt) {
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             if (document.getElementById(elmnt.id + "header")) {
-                /* if present, the header is where you move the DIV from:*/
                 document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
             } else {
-                /* otherwise, move the DIV from anywhere inside the DIV:*/
                 elmnt.onmousedown = dragMouseDown;
             }
 
             function dragMouseDown(e) {
                 e = e || window.event;
                 e.preventDefault();
-                // get the mouse cursor position at startup:
                 pos3 = e.clientX;
                 pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
                 document.onmousemove = elementDrag;
             }
 
             function elementDrag(e) {
                 e = e || window.event;
                 e.preventDefault();
-                // calculate the new cursor position:
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                // set the element's new position:
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
                 console.log(elmnt);
             }
 
             function closeDragElement() {
-                /* stop moving when mouse button is released:*/
                 document.onmouseup = null;
                 document.onmousemove = null;
             }
         }
+        function getInfo(listX) {
+            console.log(listX);
+            var x = document.getElementById("info");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+            x.innerHTML = test[0][listX].Country + " has a total of <strong>" +test[0][listX].ActiveCases + "</strong> active cases.<br>Overall, <strong>" + test[0][listX].TotalCases + "</strong> people were affected by the COVID-19 virus<br>";
+            x.innerHTML += "<strong>" + test[0][listX].TotalDeaths + "</strong> people died, <strong>" + test[0][listX].TotalRecovered + "</strong> fully recovered, and <strong>" + test[0][listX].Serious_Critical + "</strong> are in a critical state<br>"
+            x.innerHTML += "In the last 24 hours, <strong>" + test[0][listX].NewCases + "</strong> people got sick, and <strong>" + test[0][listX].NewDeaths + "</strong> died";
+        }
+
     </script>
     <!-- Content -->
 
