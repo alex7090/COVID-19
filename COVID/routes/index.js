@@ -18,7 +18,7 @@ function get_json(options, cb) {
         });
 
         res.on('end', function () {
-            //            console.log(body);
+                        console.log(body);
             var price = JSON.parse(body);
             var result = price;
             cb(null, result);
@@ -42,7 +42,7 @@ router.get('/alex', function (req, res) {
         if (err) {
             return console.log('Error while trying to get price: ', err);
         }
-        console.log(result.reports[0].cases)
+        //console.log(result.reports[0].table)
         
         res.render('main_page', {
             data: result.reports[0].table,
