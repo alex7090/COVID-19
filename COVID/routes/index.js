@@ -43,7 +43,7 @@ router.get('/alex', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         //console.log(result.reports[0].table)
-        
+
         res.render('main_page', {
             data: result.reports[0].table,
             confirmed: result.reports[0].cases,
@@ -68,7 +68,7 @@ router.get('/humza', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         console.log(result.reports[0].cases)
-        
+
         res.render('listes', {
         });
     });
@@ -89,7 +89,7 @@ router.get('/clement', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         console.log(result.reports[0].cases)
-        
+
         res.render('graph', {
             confirmed: result.reports[0].cases,
             deaths: result.reports[0].deaths,
@@ -115,8 +115,8 @@ router.get('/benji', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         console.log(result.reports[0].cases)
-        
-        res.render('main_page', {
+
+        res.render('accueil', {
             confirmed: result.reports[0].cases,
             deaths: result.reports[0].deaths,
             recovered: result.reports[0].recovered,
