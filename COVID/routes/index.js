@@ -69,7 +69,7 @@ router.get('/humza', function (req, res) {
         }
         console.log(result.reports[0].cases)
         
-        res.render('listes', {
+        res.render('tabs', {
         });
     });
 
