@@ -18,7 +18,7 @@ function get_json(options, cb) {
         });
 
         res.on('end', function () {
-            //            console.log(body);
+                        console.log(body);
             var price = JSON.parse(body);
             var result = price;
             cb(null, result);
@@ -42,8 +42,8 @@ router.get('/alex', function (req, res) {
         if (err) {
             return console.log('Error while trying to get price: ', err);
         }
-        console.log(result.reports[0].cases)
-        
+        //console.log(result.reports[0].table)
+
         res.render('main_page', {
             data: result.reports[0].table,
             confirmed: result.reports[0].cases,
@@ -89,7 +89,7 @@ router.get('/clement', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         console.log(result.reports[0].cases)
-        
+
         res.render('graph', {
             confirmed: result.reports[0].cases,
             deaths: result.reports[0].deaths,
@@ -115,8 +115,8 @@ router.get('/benji', function (req, res) {
             return console.log('Error while trying to get price: ', err);
         }
         console.log(result.reports[0].cases)
-        
-        res.render('main_page', {
+
+        res.render('accueil', {
             confirmed: result.reports[0].cases,
             deaths: result.reports[0].deaths,
             recovered: result.reports[0].recovered,

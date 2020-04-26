@@ -5,6 +5,7 @@ const session = require('express-session');
 const app = express();
 
 app.use(express.static(__dirname + '/views'));
+app.use(express.static('./public'));
 
 //EJS
 app.use(expressLayouts);

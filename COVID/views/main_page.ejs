@@ -1,5 +1,10 @@
 <head>
     <title>COVID</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <style>
     #info {
@@ -9,6 +14,423 @@
         position: absolute;
     }
 
+
+
+    #total-recovery::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    #total-recovery::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    #total-recovery::-webkit-scrollbar-thumb {
+        background: #70a800;
+        border-radius: 10px;
+    }
+
+    #total-recovery::-webkit-scrollbar-thumb:hover {
+        background: #81a736;
+    }
+
+
+
+
+
+
+    #total-death::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    #total-death::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    #total-death::-webkit-scrollbar-thumb {
+        background: #e60000;
+        border-radius: 10px;
+    }
+
+    #total-death::-webkit-scrollbar-thumb:hover {
+        background: #da4040;
+    }
+
+
+
+
+
+    #total-cases::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    #total-cases::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    #total-cases::-webkit-scrollbar-thumb {
+        background: #73b2ff;
+        border-radius: 10px;
+    }
+
+    #total-cases::-webkit-scrollbar-thumb:hover {
+        background: #90c1fc;
+    }
+</style>
+
+<body>
+
+    <div id='total-cases'></div>
+    <div id='total-recovery'></div>
+    <div id='total-death'></div>
+    <div id="info"></div>
+
+    <div id='canvas-holder' style="width: 20%;height: 20%;position: absolute;top: 50%;">
+        <canvas id="sex-chart"></canvas>
+    </div>
+    <div id='canvas-holder' style="width: 20%;height: 20%;position: absolute;top: 50%; left: 33%;">
+        <canvas id="age-chart"></canvas>
+    </div>
+    <div id='canvas-holder' style="width: 30%;height: 30%;position: absolute;top: 50%; left: 66%;">
+        <canvas id="age2-chart"></canvas>
+    </div>
+    <div id='canvas-holder' style="width: 30%;height: 30%;position: absolute;top: 100%;">
+        <canvas id="comorbidities-chart"></canvas>
+    </div>
+    <div id="link-holder" width="100%" height="100%" style="top:100%; left:66%;position: absolute;">
+        <p>Click <a id="link"
+                href=""
+                target="_blank">HERE</a> to open the latest situation report</p>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+        var link = new XMLHttpRequest();
+        link.responseType = 'json';
+        link.open('GET', "https://covid19api.io/api/v1/SituationReports", true);
+        link.onload = function () {
+            var jsonResponse = JSON.stringify(link.response);
+            jsonResponse = JSON.parse(jsonResponse);
+            document.getElementById("link").href = jsonResponse.reports[0].pdf;
+        };
+        link.send(null);
+    </script>
+
+    <script>
+        var req = new XMLHttpRequest();
+        req.responseType = 'json';
+        req.open('GET', "https://covid19api.io/api/v1/FatalityRateBySex", true);
+        req.onload = function () {
+            var jsonResponse = JSON.stringify(req.response);
+            jsonResponse = JSON.parse(jsonResponse);
+
+            new Chart(document.getElementById("sex-chart"), {
+
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: [
+                            jsonResponse.table[0].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                            jsonResponse.table[1].DeathRateAllCases.slice(0, -1).replace(',', '.')
+                        ],
+                        backgroundColor: [
+                            "#3e95cd",
+                            "#8e5ea2"
+                        ],
+                        label: 'Dataset 1'
+                    }],
+                    labels: [
+                        jsonResponse.table[0].Sex,
+                        jsonResponse.table[1].Sex
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Fatality rate by Sex'
+                    },
+                    responsive: true
+                }
+            });
+        };
+        req.send(null);
+    </script>
+
+
+    <script>
+        var req2 = new XMLHttpRequest();
+        req2.responseType = 'json';
+        req2.open('GET', "https://covid19api.io/api/v1/FatalityRateByAge", true);
+        req2.onload = function () {
+            var jsonResponse = JSON.stringify(req2.response);
+            jsonResponse = JSON.parse(jsonResponse);
+            new Chart(document.getElementById("age2-chart"), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        jsonResponse.table[0].Age,
+                        jsonResponse.table[1].Age,
+                        jsonResponse.table[2].Age,
+                        jsonResponse.table[3].Age,
+                        jsonResponse.table[4].Age
+                    ],
+                    datasets: [
+                        {
+                            data: [
+                                jsonResponse.table[0].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[1].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[2].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[3].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[4].DeathRateAllCases.slice(0, -1).replace(',', '.')
+                            ],
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                            label: "Dataset 1"
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Fatality rate by Age'
+                    },
+                    responsive: true
+                }
+            });
+            new Chart(document.getElementById("age-chart"), {
+
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: [
+                            jsonResponse.table[0].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                            jsonResponse.table[1].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                            jsonResponse.table[2].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                            jsonResponse.table[3].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                            jsonResponse.table[4].DeathRateAllCases.slice(0, -1).replace(',', '.')
+                        ],
+                        backgroundColor: [
+                            "#3e95cd",
+                            "#8e5ea2",
+                            "#e60000",
+                            "#70a800",
+                            "#73b2ff"
+                        ],
+                        label: 'Dataset 1'
+                    }],
+                    labels: [
+                        jsonResponse.table[0].Age,
+                        jsonResponse.table[1].Age,
+                        jsonResponse.table[2].Age,
+                        jsonResponse.table[3].Age,
+                        jsonResponse.table[4].Age
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Fatality rate by Age'
+                    },
+                    responsive: true
+                }
+            });
+        };
+        req2.send(null);
+    </script>
+
+
+
+    <script>
+        var req3 = new XMLHttpRequest();
+        req3.responseType = 'json';
+        req3.open('GET', "https://covid19api.io/api/v1/FatalityRateByComorbidities", true);
+        req3.onload = function () {
+            var jsonResponse = JSON.stringify(req3.response);
+            jsonResponse = JSON.parse(jsonResponse);
+            new Chart(document.getElementById("comorbidities-chart"), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        jsonResponse.table[0].PreExistingCondition,
+                        jsonResponse.table[1].PreExistingCondition,
+                        jsonResponse.table[2].PreExistingCondition,
+                        jsonResponse.table[3].PreExistingCondition,
+                        jsonResponse.table[4].PreExistingCondition,
+                        jsonResponse.table[5].PreExistingCondition,
+                        jsonResponse.table[6].PreExistingCondition,
+                        jsonResponse.table[7].PreExistingCondition,
+                        jsonResponse.table[8].PreExistingCondition
+                    ],
+                    datasets: [
+                        {
+                            data: [
+                                jsonResponse.table[0].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[1].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[2].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[3].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[4].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[5].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[6].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[7].DeathRateAllCases.slice(0, -1).replace(',', '.'),
+                                jsonResponse.table[8].DeathRateAllCases.slice(0, -1).replace(',', '.')
+                            ],
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#c45850", "#c45850", "#3e95cd"],
+                            label: "Dataset 1"
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Fatality rate by Comorbidities'
+                    },
+                    responsive: true
+                }
+            });
+        };
+        req3.send(null);
+    </script>
+
+
+
+
+
+
+
+
+
+    <script>
+        var tmp = "";
+        var test = "";
+        parse();
+        function parse() {
+            tmp = '<%- JSON.stringify(data) %>';
+            test = JSON.parse(tmp);
+            console.log(test[0][0].Country);
+            var txt_death = "";
+            txt_death += "<table class='table-responsive table-hover table-dark' id='total-death' style='width: 15%;height: 50%;position: absolute;left: 66%;overflow-x: hidden'>";
+            txt_death += "<thead><tr><th scope='col'>Deaths by country</th></tr></thead><tbody>";
+            var txt_recovery = "";
+            txt_recovery += "<table class='table-responsive table-hover table-dark' id='total-recovery' style='width: 15%;height: 50%;position: absolute;left: 33%;overflow-x: hidden'>";
+            txt_recovery += "<thead><tr><th scope='col'>Recoveries by country</th></tr></thead><tbody>";
+            var txt_cases = "";
+            txt_cases += "<table class='table-responsive table-hover table-dark' id='total-cases' style='width: 15%;height: 50%;position: absolute;overflow-x: hidden'>";
+            txt_cases += "<thead><tr><th scope='col'>Active cases by country</th></tr></thead><tbody>";
+            for (x in test[0]) {
+                txt_death += "<tr><td><span style='color: #e60000'>" + test[0][x].TotalDeaths + "</span><span STYLE='padding:12px;'>" + test[0][x].Country + "</td></tr>";
+                txt_recovery += "<tr><td><span style='color: #70a800'>" + test[0][x].TotalRecovered + "</span><span STYLE='padding:12px;'>" + test[0][x].Country + "</td></tr>";
+                txt_cases += "<tr><td><span style='color: #73b2ff'>" + test[0][x].TotalCases + "</span><span STYLE='padding:12px;'>" + test[0][x].Country + "</td></tr>";
+            }
+            txt_cases += "</tbody></table>";
+            txt_death += "</tbody></table>";
+            txt_recovery += "</tbody></table>";
+            document.getElementById("total-cases").innerHTML = txt_cases;
+            document.getElementById("total-death").innerHTML = txt_death;
+            document.getElementById("total-recovery").innerHTML = txt_recovery;
+        }
+
+        //Make the DIV element draggagle:
+        // dragElement(document.getElementById("mydiv"));
+        // dragElement(document.getElementById("mydiv2"));
+        // dragElement(document.getElementById("mydiv3"));
+        // dragElement(document.getElementById("mydiv4"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                console.log(elmnt);
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+        function getInfo(listX) {
+            console.log(listX);
+            var x = document.getElementById("info");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+            x.innerHTML = test[0][listX].Country + " has a total of <strong>" + test[0][listX].ActiveCases + "</strong> active cases.<br>Overall, <strong>" + test[0][listX].TotalCases + "</strong> people were affected by the COVID-19 virus<br>";
+            x.innerHTML += "<strong>" + test[0][listX].TotalDeaths + "</strong> people died, <strong>" + test[0][listX].TotalRecovered + "</strong> fully recovered, and <strong>" + test[0][listX].Serious_Critical + "</strong> are in a critical state<br>"
+            x.innerHTML += "In the last 24 hours, <strong>" + test[0][listX].NewCases + "</strong> people got sick, and <strong>" + test[0][listX].NewDeaths + "</strong> died";
+        }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="page-footer font-small grey">
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="https://elliotdeutsch.wixsite.com/cleantown-landingpg"> CleanTown</a>
+        </div>
+    </footer> -->
+    <!-- Footer -->
+
+    <!-- <div class="row">
+        <div id="mydiv">
+            <div id="mydivheader">CONFIRMED CASES</div>
+            <p id="conf"><%- confirmed %></p>
+        </div>
+
+        <div id="mydiv2">
+            <div id="mydiv2header">DEATHS</div>
+            <p><%- deaths %></p>
+        </div>
+
+        <div id="mydiv3">
+            <div id="mydiv3header">RECOVERIES</div>
+            <p><%- recovered %></p>
+        </div>
+
+        <div id="mydiv4">
+            <div id="mydiv4header">ACTIVE CASES</div>
+            <p><%- active %></p>
+        </div>
+    </div> -->
+    <!-- <style>
     #mydiv {
         top: 200px;
         left: 100px;
@@ -80,114 +502,5 @@
         background-color: rgb(255, 187, 0);
         color: #fff;
     }
-</style>
-
-<body>
-    <p id='demo'></p>
-
-    <div id="info"></div>
-
-    <div class="row">
-        <div id="mydiv">
-            <div id="mydivheader">CONFIRMED CASES</div>
-            <p id="conf"><%- confirmed %></p>
-        </div>
-
-        <div id="mydiv2">
-            <div id="mydiv2header">DEATHS</div>
-            <p><%- deaths %></p>
-        </div>
-
-        <div id="mydiv3">
-            <div id="mydiv3header">RECOVERIES</div>
-            <p><%- recovered %></p>
-        </div>
-
-        <div id="mydiv4">
-            <div id="mydiv4header">ACTIVE CASES</div>
-            <p><%- active %></p>
-        </div>
-    </div>
-    <script>
-        var tmp = "";
-        var test = "";
-        parse();
-        function parse() {
-            tmp = '<%- JSON.stringify(data) %>';
-            test = JSON.parse(tmp);
-            console.log(test[0][0].Country);
-            var txt = "";
-            txt += "<table border='1'>";
-            txt += "<tr><td>DEV-ID</td><td>Country</td><td>Death</td><td>Cases</td><td>Recovered</td><td>Active</td></tr>";
-            for (x in test[0]) {
-                txt += "<tr id='" + x + "' onclick='getInfo(this.id)'><td>" + x + "</td><td>" + test[0][x].Country + "</td><td>" + test[0][x].TotalDeaths + "</td><td>" + test[0][x].TotalCases + "</td><td>" + test[0][x].TotalRecovered + "</td><td>" + test[0][x].ActiveCases + "</td></tr>";
-            }
-            txt += "</table>"
-            document.getElementById("demo").innerHTML = txt;
-        }
-
-        //Make the DIV element draggagle:
-        dragElement(document.getElementById("mydiv"));
-        dragElement(document.getElementById("mydiv2"));
-        dragElement(document.getElementById("mydiv3"));
-        dragElement(document.getElementById("mydiv4"));
-
-        function dragElement(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            if (document.getElementById(elmnt.id + "header")) {
-                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-            } else {
-                elmnt.onmousedown = dragMouseDown;
-            }
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                console.log(elmnt);
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
-        function getInfo(listX) {
-            console.log(listX);
-            var x = document.getElementById("info");
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
-            x.innerHTML = test[0][listX].Country + " has a total of <strong>" +test[0][listX].ActiveCases + "</strong> active cases.<br>Overall, <strong>" + test[0][listX].TotalCases + "</strong> people were affected by the COVID-19 virus<br>";
-            x.innerHTML += "<strong>" + test[0][listX].TotalDeaths + "</strong> people died, <strong>" + test[0][listX].TotalRecovered + "</strong> fully recovered, and <strong>" + test[0][listX].Serious_Critical + "</strong> are in a critical state<br>"
-            x.innerHTML += "In the last 24 hours, <strong>" + test[0][listX].NewCases + "</strong> people got sick, and <strong>" + test[0][listX].NewDeaths + "</strong> died";
-        }
-
-    </script>
-    <!-- Content -->
-
-    <!-- Footer -->
-    <!-- <footer class="page-footer font-small grey">
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://elliotdeutsch.wixsite.com/cleantown-landingpg"> CleanTown</a>
-        </div>
-    </footer> -->
-    <!-- Footer -->
-
+</style> -->
 </body>
