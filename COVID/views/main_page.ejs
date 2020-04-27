@@ -1,10 +1,33 @@
 <head>
-    <title>COVID</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <title>COVID-19</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <style>
     #info {
@@ -80,8 +103,110 @@
     }
 </style>
 
-<body>
 
+
+
+
+
+
+
+
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-dark">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="" class="nav-link">
+                        <h4>COVID-19 Dashboard</h4>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Content Wrapper. Contains page content -->
+        <!-- <div class="content-wrapper"> -->
+        <!-- Content Header (Page header) -->
+        <!-- <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark"></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <!-- <section class="content"> -->
+        <!-- <div class="container-fluid"> -->
+        <div class="card text-center" style="position: absolute;">
+            <div class="card-body justify-content-center">
+                <div id="world-mapC" style="width: 800px; height: 550px;" class="tabcontent"></div>
+                <div id="world-mapR" style="width: 800px; height: 550px;" class="tabcontent"></div>
+                <div id="world-mapD" style="width: 800px; height: 550px;" class="tabcontent"></div>
+                <div class="tab">
+                    <button class="tablinks" onclick="openCity(event, 'world-mapC')" id="defaultOpen">Confirmed
+                        cases</button>
+                    <button class="tablinks" onclick="openCity(event, 'world-mapR')">Recovered cases</button>
+                    <button class="tablinks" onclick="openCity(event, 'world-mapD')">Deaths cases</button>
+                </div>
+            </div>
+        </div>
+        <div id='total-cases'></div>
+        <div id='total-recovery'></div>
+        <div id='total-death'></div>
+        <div id="info"></div>
+
+        <div id='canvas-holder' style="width: 20%;height: 20%;position: absolute;top: 50%;">
+            <canvas id="sex-chart"></canvas>
+        </div>
+        <div id='canvas-holder' style="width: 20%;height: 20%;position: absolute;top: 50%; left: 33%;">
+            <canvas id="age-chart"></canvas>
+        </div>
+        <div id='canvas-holder' style="width: 30%;height: 30%;position: absolute;top: 50%; left: 66%;">
+            <canvas id="age2-chart"></canvas>
+        </div>
+        <div id='canvas-holder' style="width: 30%;height: 30%;position: absolute;top: 100%;">
+            <canvas id="comorbidities-chart"></canvas>
+        </div>
+        <div id="link-holder" width="100%" height="100%" style="top:100%; left:66%;position: absolute;">
+            <p>Click <a id="link" href="" target="_blank">HERE</a> to open the latest situation report</p>
+        </div>
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            document.getElementById("defaultOpen").click();
+        </script>
+        <!-- </div> -->
+        <!-- </section> -->
+        <!-- </div> -->
+
+
+    </div>
+
+
+    <!-- 
     <div id='total-cases'></div>
     <div id='total-recovery'></div>
     <div id='total-death'></div>
@@ -100,15 +225,33 @@
         <canvas id="comorbidities-chart"></canvas>
     </div>
     <div id="link-holder" width="100%" height="100%" style="top:100%; left:66%;position: absolute;">
-        <p>Click <a id="link"
-                href=""
-                target="_blank">HERE</a> to open the latest situation report</p>
-    </div>
+        <p>Click <a id="link" href="" target="_blank">HERE</a> to open the latest situation report</p>
+    </div> -->
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- SITUATION -->
     <script>
         var link = new XMLHttpRequest();
         link.responseType = 'json';
@@ -121,6 +264,22 @@
         link.send(null);
     </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- GRAPH % MORT/SEX -->
     <script>
         var req = new XMLHttpRequest();
         req.responseType = 'json';
@@ -162,6 +321,25 @@
     </script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- GRAPH % MORT/AGE -->
     <script>
         var req2 = new XMLHttpRequest();
         req2.responseType = 'json';
@@ -246,6 +424,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- GRAPH MORT/COMORBIDITEES -->
     <script>
         var req3 = new XMLHttpRequest();
         req3.responseType = 'json';
@@ -306,6 +501,8 @@
 
 
 
+
+    <!-- SCRIPT POUR GERER LES DONNEES DES LISTES -->
     <script>
         var tmp = "";
         var test = "";
@@ -315,13 +512,13 @@
             test = JSON.parse(tmp);
             console.log(test[0][0].Country);
             var txt_death = "";
-            txt_death += "<table class='table-responsive table-hover table-dark' id='total-death' style='width: 15%;height: 50%;position: absolute;left: 66%;overflow-x: hidden'>";
+            txt_death += "<table class='table-responsive table-hover table-dark' id='total-death' style='width: 15%;height: 50%;position: absolute;left: 66%;overflow-x: hidden;top: 100%'>";
             txt_death += "<thead><tr><th scope='col'>Deaths by country</th></tr></thead><tbody>";
             var txt_recovery = "";
-            txt_recovery += "<table class='table-responsive table-hover table-dark' id='total-recovery' style='width: 15%;height: 50%;position: absolute;left: 33%;overflow-x: hidden'>";
+            txt_recovery += "<table class='table-responsive table-hover table-dark' id='total-recovery' style='width: 15%;height: 50%;position: absolute;left: 33%;overflow-x: hidden;top: 100%'>";
             txt_recovery += "<thead><tr><th scope='col'>Recoveries by country</th></tr></thead><tbody>";
             var txt_cases = "";
-            txt_cases += "<table class='table-responsive table-hover table-dark' id='total-cases' style='width: 15%;height: 50%;position: absolute;overflow-x: hidden'>";
+            txt_cases += "<table class='table-responsive table-hover table-dark' id='total-cases' style='width: 15%;height: 50%;position: absolute;overflow-x: hidden;top: 100%'>";
             txt_cases += "<thead><tr><th scope='col'>Active cases by country</th></tr></thead><tbody>";
             for (x in test[0]) {
                 txt_death += "<tr><td><span style='color: #e60000'>" + test[0][x].TotalDeaths + "</span><span STYLE='padding:12px;'>" + test[0][x].Country + "</td></tr>";
@@ -334,47 +531,6 @@
             document.getElementById("total-cases").innerHTML = txt_cases;
             document.getElementById("total-death").innerHTML = txt_death;
             document.getElementById("total-recovery").innerHTML = txt_recovery;
-        }
-
-        //Make the DIV element draggagle:
-        // dragElement(document.getElementById("mydiv"));
-        // dragElement(document.getElementById("mydiv2"));
-        // dragElement(document.getElementById("mydiv3"));
-        // dragElement(document.getElementById("mydiv4"));
-
-        function dragElement(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            if (document.getElementById(elmnt.id + "header")) {
-                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-            } else {
-                elmnt.onmousedown = dragMouseDown;
-            }
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                console.log(elmnt);
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
         }
         function getInfo(listX) {
             console.log(listX);
@@ -390,6 +546,98 @@
         }
 
     </script>
+
+
+
+
+
+
+    <!-- GET MAP DATA -->
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="/plugins/jqvmap/maps/jquery.vmap.world.js"></script>
+    <script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <script>
+        var sample_data = {
+            "af": "16.63",
+            "al": "11.58",
+            "dz": "1508.97",
+            "ao": "85.81",
+            "ag": "1.1",
+            "ar": "3501.02",
+            "am": "8.83",
+            "au": "1219.72",
+            "at": "366.26", "az": "52.17", "bs": "7.54", "bh": "21.73", "bd": "105.4", "bb": "3.96", "by": "52.89", "be": "461.33", "bz": "1.43", "bj": "6.49", "bt": "1.4", "bo": "19.18", "ba": "16.2", "bw": "12.5", "br": "2023.53", "bn": "11.96", "bg": "44.84", "bf": "8.67", "bi": "1.47", "kh": "11.36", "cm": "21.88", "ca": "1563.66", "cv": "1.57", "cf": "2.11", "td": "7.59", "cl": "199.18", "cn": "5745.13", "co": "283.11", "km": "0.56", "cd": "12.6", "cg": "11.88", "cr": "35.02", "ci": "22.38", "hr": "59.92", "cy": "22.75", "cz": "195.23", "dk": "304.56", "dj": "1.14", "dm": "0.38", "do": "50.87", "ec": "61.49", "eg": "216.83", "sv": "21.8", "gq": "14.55", "er": "2.25", "ee": "19.22", "et": "30.94", "fj": "3.15", "fi": "231.98", "fr": "2555.44", "ga": "12.56", "gm": "1.04", "ge": "11.23", "de": "3305.9", "gh": "18.06", "gr": "305.01", "gd": "0.65", "gt": "40.77", "gn": "4.34", "gw": "0.83", "gy": "2.2", "ht": "6.5", "hn": "15.34", "hk": "226.49", "hu": "132.28", "is": "12.77", "in": "1430.02", "id": "695.06", "ir": "337.9", "iq": "84.14", "ie": "204.14", "il": "201.25", "it": "2036.69", "jm": "13.74", "jp": "5390.9", "jo": "27.13", "kz": "129.76", "ke": "32.42", "ki": "0.15", "kr": "986.26", "undefined": "5.73", "kw": "117.32", "kg": "4.44", "la": "6.34", "lv": "23.39", "lb": "39.15", "ls": "1.8", "lr": "0.98", "ly": "77.91", "lt": "35.73", "lu": "52.43", "mk": "9.58", "mg": "8.33", "mw": "5.04", "my": "218.95", "mv": "1.43", "ml": "9.08", "mt": "7.8", "mr": "3.49", "mu": "9.43", "mx": "1004.04", "md": "5.36", "mn": "5.81", "me": "3.88", "ma": "91.7", "mz": "10.21", "mm": "35.65", "na": "11.45", "np": "15.11", "nl": "770.31", "nz": "138", "ni": "6.38", "ne": "5.6", "ng": "206.66", "no": "413.51", "om": "53.78", "pk": "174.79", "pa": "27.2", "pg": "8.81", "py": "17.17", "pe": "153.55", "ph": "189.06", "pl": "438.88", "pt": "223.7", "qa": "126.52", "ro": "158.39", "ru": "1476.91", "rw": "5.69", "ws": "0.55", "st": "0.19", "sa": "434.44", "sn": "12.66", "rs": "38.92", "sc": "0.92", "sl": "1.9", "sg": "217.38", "sk": "86.26", "si": "46.44", "sb": "0.67", "za": "354.41", "es": "1374.78", "lk": "48.24", "kn": "0.56", "lc": "1", "vc": "0.58", "sd": "65.93", "sr": "3.3", "sz": "3.17", "se": "444.59", "ch": "522.44", "sy": "59.63", "tw": "426.98", "tj": "5.58", "tz": "22.43", "th": "312.61", "tl": "0.62", "tg": "3.07", "to": "0.3", "tt": "21.2", "tn": "43.86", "tr": "729.05", "tm": 0, "ug": "17.12", "ua": "136.56", "ae": "239.65", "gb": "2258.57", "us": "14624.18", "uy": "40.71", "uz": "37.72", "vu": "0.72", "ve": "285.21", "vn": "101.99", "ye": "30.02", "zm": "15.69", "zw": "5.57"
+        };
+        // World map by jvectormap
+        $('#world-mapC').vectorMap({
+            map: 'world_en',
+            backgroundColor: '#333333',
+            color: '#ffffff',
+            hoverOpacity: 0.7,
+            selectedColor: '#666666',
+            enableZoom: true,
+            showTooltip: true,
+            scaleColors: ['#C8EEFF', '#006491'],
+            values: sample_data,
+            normalizeFunction: 'polynomial',
+            onLabelShow: function (event, label, code) {
+                console.log(code);
+                label[0].innerHTML = label[0].innerHTML + " - Confirmed: 155 275 / Deaths: 20 265";
+            },
+        });
+
+        $('#world-mapD').vectorMap({
+            map: 'world_en',
+            backgroundColor: '#333333',
+            color: '#ffffff',
+            hoverOpacity: 0.7,
+            selectedColor: '#666666',
+            enableZoom: true,
+            showTooltip: true,
+            scaleColors: ['#EED1CD', '#AE1D08'],
+            values: sample_data,
+            normalizeFunction: 'polynomial',
+            onLabelShow: function (event, label, code) {
+
+                label[0].innerHTML = label[0].innerHTML + " - Confirmed: 155 275 / Deaths: 20 265";
+            },
+        });
+        $('#world-mapR').vectorMap({
+            map: 'world_en',
+            backgroundColor: '#333333',
+            color: '#ffffff',
+            hoverOpacity: 0.7,
+            selectedColor: '#666666',
+            enableZoom: true,
+            showTooltip: true,
+            scaleColors: ['#CCEFCC', '#04B000'],
+            values: sample_data,
+            normalizeFunction: 'polynomial',
+            onLabelShow: function (event, label, code) {
+
+                label[0].innerHTML = label[0].innerHTML + " - Confirmed: 155 275 / Deaths: 20 265";
+            },
+        });
+        $('#focus-single').click(function () {
+            $('#world-map').vectorMap('zoomIn', 280, -100, 1.3);
+        });
+    </script>
+
+
+
+
+
+
+
+
+    <!-- BOOTSTRAP INCLUDE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -399,108 +647,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <!-- Content -->
-
-    <!-- Footer -->
-    <!-- <footer class="page-footer font-small grey">
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://elliotdeutsch.wixsite.com/cleantown-landingpg"> CleanTown</a>
-        </div>
-    </footer> -->
-    <!-- Footer -->
-
-    <!-- <div class="row">
-        <div id="mydiv">
-            <div id="mydivheader">CONFIRMED CASES</div>
-            <p id="conf"><%- confirmed %></p>
-        </div>
-
-        <div id="mydiv2">
-            <div id="mydiv2header">DEATHS</div>
-            <p><%- deaths %></p>
-        </div>
-
-        <div id="mydiv3">
-            <div id="mydiv3header">RECOVERIES</div>
-            <p><%- recovered %></p>
-        </div>
-
-        <div id="mydiv4">
-            <div id="mydiv4header">ACTIVE CASES</div>
-            <p><%- active %></p>
-        </div>
-    </div> -->
-    <!-- <style>
-    #mydiv {
-        top: 200px;
-        left: 100px;
-        position: absolute;
-        z-index: 9;
-        background-color: #f1f1f1;
-        text-align: center;
-        border: 1px solid #d3d3d3;
-    }
-
-    #mydivheader {
-        padding: 10px;
-        cursor: move;
-        z-index: 10;
-        background-color: rgb(175, 63, 63);
-        color: #fff;
-    }
-
-    #mydiv2 {
-        top: 200px;
-        left: 300px;
-        position: absolute;
-        z-index: 9;
-        background-color: #f1f1f1;
-        text-align: center;
-        border: 1px solid #d3d3d3;
-    }
-
-    #mydiv2header {
-        padding: 10px;
-        cursor: move;
-        z-index: 10;
-        background-color: rgb(0, 0, 0);
-        color: #fff;
-    }
-
-    #mydiv3 {
-        top: 200px;
-        left: 500px;
-        position: absolute;
-        z-index: 9;
-        background-color: #f1f1f1;
-        text-align: center;
-        border: 1px solid #d3d3d3;
-    }
-
-    #mydiv3header {
-        padding: 10px;
-        cursor: move;
-        z-index: 10;
-        background-color: rgb(2, 255, 23);
-        color: #fff;
-    }
-
-    #mydiv4 {
-        top: 200px;
-        left: 700px;
-        position: absolute;
-        z-index: 9;
-        background-color: #f1f1f1;
-        text-align: center;
-        border: 1px solid #d3d3d3;
-    }
-
-    #mydiv4header {
-        padding: 10px;
-        cursor: move;
-        z-index: 10;
-        background-color: rgb(255, 187, 0);
-        color: #fff;
-    }
-</style> -->
 </body>
