@@ -14,7 +14,7 @@
     "csv-parse": "^4.8.8",
     "csv-parser": "^2.3.2",
     "curlrequest": "^1.0.1",
-    "d3": "^5.15.1",
+    "d3": "^7.6.1",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
